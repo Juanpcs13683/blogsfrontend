@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import Blog from './components/Blog'
+import blogService from './services/blogs'
 
 function App() {
+  const [blogs, setBlogs] = useState([])
+
+  //loggin variables
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  //-------Getting all the blogs in DB
+  useEffect(() => {
+    blogService.getAll().then(blogs => setBlogs(blogs))
+  }, [])
+  //---------Saving the user logged
+
+  const blogsComponent = () => (
+    <div>
+     
+      <Blog blogs={blogs} />
+    </div>
+  )
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      
     </div>
   );
 }
