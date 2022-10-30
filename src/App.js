@@ -13,8 +13,6 @@ function App() {
 
   const [message, setMessage] = useState(null)
   const [classMessage, setClassMessage] = useState(null)
-  
-
   //loggin variables
   const [user, setUser] = useState(null)
 
@@ -33,15 +31,15 @@ function App() {
       setUser(user)
       blogService.setToken(user.token)
     }
-  },[])
+  }, [])
 
   const handleLogin = async (userLogin) => {
-    
+
     let username = userLogin.username
     let password = userLogin.password
-    
+
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       setUser(user)
@@ -63,7 +61,7 @@ function App() {
     }
   }
 
-  const handleLogOut = async() => {
+  const handleLogOut = async () => {
     try {
       window.localStorage.removeItem('loggedBlogappUser')
       setUser(null)
@@ -84,27 +82,27 @@ function App() {
   }
 
   const addBlog = (blogObject) => {
-    
+
     blogFormRef.current.toggleVisibility()
 
     blogService.create(blogObject).then(response => {
-       setBlogs(blogs.concat(response))
-       setMessage(`a new blog ${response.title} by ${response.author} added`)
-       setClassMessage('success')
-       setTimeout(() => {
+      setBlogs(blogs.concat(response))
+      setMessage(`a new blog ${response.title} by ${response.author} added`)
+      setClassMessage('success')
+      setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-       }, 4000);
-  }).catch(error => {
-    setMessage(error.response.data.error)
-    setClassMessage('error')
-    setTimeout(() => {
-      setMessage(null)
-      setClassMessage(null)
-    }, 4000);
-  }
-  )
-    
+      }, 4000);
+    }).catch(error => {
+      setMessage(error.response.data.error)
+      setClassMessage('error')
+      setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+      }, 4000);
+    }
+    )
+
   }
 
   const updateBlog = (blogObject, idBlog) => {
@@ -129,34 +127,35 @@ function App() {
   const deleteBlog = (idBlog) => {
 
     const blogFound = blogs.find(blog => blog.id === idBlog)
-    if (window.confirm(`Remove blog ${blogFound.title} by ${blogFound.author}`)) {blogService.delet(idBlog).then(response  => {
-      setBlogs(blogs.filter(blog => blog.id !== idBlog))
-      setMessage('Blog have been deleted')
-      setClassMessage('success')
-      setTimeout(() => {
-        setMessage(null)
-        setClassMessage(null)
-      }, 4000);
-    }).catch(error => {
-      setMessage(error.response.data.error)
-      setClassMessage('error')
-      setTimeout(() => {
-        setMessage(null)
-        setClassMessage(null)
-      }, 4000);
-    })
-  }
+    if (window.confirm(`Remove blog ${blogFound.title} by ${blogFound.author}`)) {
+      blogService.delet(idBlog).then(response => {
+        setBlogs(blogs.filter(blog => blog.id !== idBlog))
+        setMessage('Blog have been deleted')
+        setClassMessage('success')
+        setTimeout(() => {
+          setMessage(null)
+          setClassMessage(null)
+        }, 4000);
+      }).catch(error => {
+        setMessage(error.response.data.error)
+        setClassMessage('error')
+        setTimeout(() => {
+          setMessage(null)
+          setClassMessage(null)
+        }, 4000);
+      })
+    }
   }
 
   const loginComponent = () => (
     <Togglable buttonLabel='login'>
-      <Login userLogin={handleLogin}  />
+      <Login userLogin={handleLogin} />
     </Togglable>
   )
 
 
   const blogFormRef = useRef()
-  
+
 
   const blogsComponent = () => (
     <div>
@@ -165,15 +164,15 @@ function App() {
       <Togglable buttonLabel='new Blog' ref={blogFormRef}>
         <FormBlog createBlog={addBlog} />
       </Togglable>
-      <br/>
-      <Blog updatedBlog={updateBlog} blogs={blogs} handleDelete={deleteBlog}  />
+      <br />
+      <Blog updatedBlog={updateBlog} blogs={blogs} handleDelete={deleteBlog} />
     </div>
   )
 
   return (
-    <div className="App">
+    <div className='App'>
       <Notification message={message} classNotification={classMessage} />
-      {user === null? loginComponent() : blogsComponent()}
+      {user === null ? loginComponent() : blogsComponent()}
     </div>
   );
 }
