@@ -2,7 +2,7 @@ import React from "react";
 import blogs from "../services/blogs";
 import ToggleableBlog from "./ToggleableBlog";
 
-const Blog = ({blogs, updatedBlog}) =>{ 
+const Blog = ({blogs, updatedBlog, handleDelete}) =>{ 
 
     
     return(
@@ -15,7 +15,9 @@ const Blog = ({blogs, updatedBlog}) =>{
         likes={blog.likes} 
         user={blog.user}
         idBlog={blog.id}
-        updatedBlog={updatedBlog}>
+        updatedBlog={updatedBlog}
+        handleDelete={handleDelete}>
+        
         </ToggleableBlog>)}
     </div>
 )}

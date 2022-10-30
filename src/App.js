@@ -23,6 +23,7 @@ function App() {
   useEffect(() => {
     blogService.getAll().then(blogs => setBlogs(blogs))
   }, [])
+
   //---------Saving the user logged
 
   useEffect(() => {
@@ -108,10 +109,45 @@ function App() {
 
   const updateBlog = (blogObject, idBlog) => {
     blogService.update(blogObject, idBlog).then(response => {
-      console.log(response)
       setBlogs(blogs.map(blog => blog.id !== idBlog ? blog : response))
+      setMessage('User updated')
+      setClassMessage('success')
+      setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+      }, 4000);
+    }).catch(error => {
+      setMessage(error.response.data.error)
+      setClassMessage('error')
+      setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+      }, 4000);
     })
   }
+
+  const deleteBlog = (idBlog) => {
+
+    const blogFound = blogs.find(blog => blog.id === idBlog)
+    if (window.confirm(`Remove blog ${blogFound.title} by ${blogFound.author}`)) {blogService.delet(idBlog).then(response  => {
+      setBlogs(blogs.filter(blog => blog.id !== idBlog))
+      setMessage('Blog have been deleted')
+      setClassMessage('success')
+      setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+      }, 4000);
+    }).catch(error => {
+      setMessage(error.response.data.error)
+      setClassMessage('error')
+      setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+      }, 4000);
+    })
+  }
+  }
+
   const loginComponent = () => (
     <Togglable buttonLabel='login'>
       <Login userLogin={handleLogin}  />
@@ -130,7 +166,7 @@ function App() {
         <FormBlog createBlog={addBlog} />
       </Togglable>
       <br/>
-      <Blog updatedBlog={updateBlog} blogs={blogs}   />
+      <Blog updatedBlog={updateBlog} blogs={blogs} handleDelete={deleteBlog}  />
     </div>
   )
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog }) => {
+const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, handleDelete }) => {
     const  [visible, setVisible] = useState(false)
 
     const hidenWhenVisible = { display : visible ? 'none': '' }
@@ -16,15 +16,21 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog }
         marginBottom: 5
       }
 
+
+
       const handleUpdate = () => {
         
         updatedBlog({
-            user: user.id,
-            likes: likes+1,
             author: author,
+            likes: likes+1,
             title: title,
             url: url,
+            user: user,
         }, idBlog)
+      }
+
+      const deleteBlog = () => {
+        handleDelete(idBlog)
       }
 
     return(
@@ -37,6 +43,7 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog }
                 <p>{url}</p>
                 <p>likes: {likes} <button onClick={handleUpdate}>like</button></p>
                 <p>{user.name}</p>
+                <button onClick={deleteBlog}>remove</button>
             </div>
         </div>
     )
