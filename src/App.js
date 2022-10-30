@@ -106,6 +106,12 @@ function App() {
     
   }
 
+  const updateBlog = (blogObject, idBlog) => {
+    blogService.update(blogObject, idBlog).then(response => {
+      console.log(response)
+      setBlogs(blogs.map(blog => blog.id !== idBlog ? blog : response))
+    })
+  }
   const loginComponent = () => (
     <Togglable buttonLabel='login'>
       <Login userLogin={handleLogin}  />
@@ -124,7 +130,7 @@ function App() {
         <FormBlog createBlog={addBlog} />
       </Togglable>
       <br/>
-      <Blog blogs={blogs}   />
+      <Blog updatedBlog={updateBlog} blogs={blogs}   />
     </div>
   )
 
