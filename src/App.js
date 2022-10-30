@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import FormBlog from './components/FormBlog'
+import LogOut from './components/LogOut'
+import Togglable from './components/Toggleable'
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -13,9 +16,8 @@ function App() {
   
 
   //loggin variables
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
 
   //-------Getting all the blogs in DB
   useEffect(() => {
@@ -32,16 +34,16 @@ function App() {
     }
   },[])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (userLogin) => {
+    
+    let username = userLogin.username
+    let password = userLogin.password
     
     try {
       const user = await loginService.login({username, password})
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       setUser(user)
-      setUsername('')
-      setPassword('')
       setMessage('user logged in successful')
       setClassMessage('success')
       setTimeout(() => {
@@ -51,7 +53,7 @@ function App() {
 
     } catch (error) {
       //set the error
-      setMessage(error.message)
+      setMessage(error.response.data.error)
       setClassMessage('error')
       setTimeout(() => {
         setMessage(null)
@@ -71,7 +73,7 @@ function App() {
         setClassMessage(null)
       }, 3000);
     } catch (error) {
-      setMessage(error.message)
+      setMessage(error.response.data.error)
       setClassMessage('error')
       setTimeout(() => {
         setMessage(null)
@@ -80,14 +82,49 @@ function App() {
     }
   }
 
-  const loginComponent = () => (
-    <Login handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} />
+  const addBlog = (blogObject) => {
+    
+    blogFormRef.current.toggleVisibility()
+
+    blogService.create(blogObject).then(response => {
+       setBlogs(blogs.concat(response))
+       setMessage(`a new blog ${response.title} by ${response.author} added`)
+       setClassMessage('success')
+       setTimeout(() => {
+        setMessage(null)
+        setClassMessage(null)
+       }, 4000);
+  }).catch(error => {
+    setMessage(error.response.data.error)
+    setClassMessage('error')
+    setTimeout(() => {
+      setMessage(null)
+      setClassMessage(null)
+    }, 4000);
+  }
   )
+    
+  }
+
+  const loginComponent = () => (
+    <Togglable buttonLabel='login'>
+      <Login userLogin={handleLogin}  />
+    </Togglable>
+  )
+
+
+  const blogFormRef = useRef()
+  
 
   const blogsComponent = () => (
     <div>
-     
-      <Blog blogs={blogs} user={user} handleLogOut={handleLogOut} />
+      <h2>Blogs</h2>
+      <LogOut user={user} handleLogOut={handleLogOut} />
+      <Togglable buttonLabel='new Blog' ref={blogFormRef}>
+        <FormBlog createBlog={addBlog} />
+      </Togglable>
+      <br/>
+      <Blog blogs={blogs}   />
     </div>
   )
 
