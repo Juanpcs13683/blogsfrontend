@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
 const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, handleDelete }) => {
     const  [visible, setVisible] = useState(false)
@@ -19,7 +19,6 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, 
 
 
       const handleUpdate = () => {
-        
         updatedBlog({
             author: author,
             likes: likes+1,
@@ -38,7 +37,7 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, 
             <div style={hidenWhenVisible}>
                 {title} <b>{author}</b> <button onClick={toggleVisibility}>view</button>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} className='toggleableContent'>
                 {title} <b>{author}</b> <button onClick={toggleVisibility}>hide</button>
                 <p>{url}</p>
                 <p>likes: {likes} <button onClick={handleUpdate}>like</button></p>

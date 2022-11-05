@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-const LogOut = ({user, handleLogOut}) => (
+const LogOut = ({ user, handleLogOut }) => (
     <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
 )
 

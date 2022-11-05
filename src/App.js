@@ -48,7 +48,7 @@ function App() {
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 5000);
+      }, 5000)
 
     } catch (error) {
       //set the error
@@ -57,27 +57,28 @@ function App() {
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
   const handleLogOut = async () => {
     try {
       window.localStorage.removeItem('loggedBlogappUser')
+      blogService.setToken(null)
       setUser(null)
       setMessage('log out successful')
       setClassMessage('success')
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 3000);
+      }, 3000)
     } catch (error) {
       setMessage(error.response.data.error)
       setClassMessage('error')
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 3000);
+      }, 3000)
     }
   }
 
@@ -92,14 +93,14 @@ function App() {
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 4000);
+      }, 4000)
     }).catch(error => {
       setMessage(error.response.data.error)
       setClassMessage('error')
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 4000);
+      }, 4000)
     }
     )
 
@@ -113,14 +114,14 @@ function App() {
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 4000);
+      }, 4000)
     }).catch(error => {
       setMessage(error.response.data.error)
       setClassMessage('error')
       setTimeout(() => {
         setMessage(null)
         setClassMessage(null)
-      }, 4000);
+      }, 4000)
     })
   }
 
@@ -128,21 +129,21 @@ function App() {
 
     const blogFound = blogs.find(blog => blog.id === idBlog)
     if (window.confirm(`Remove blog ${blogFound.title} by ${blogFound.author}`)) {
-      blogService.delet(idBlog).then(response => {
+      blogService.delet(idBlog).then(() => {
         setBlogs(blogs.filter(blog => blog.id !== idBlog))
         setMessage('Blog have been deleted')
         setClassMessage('success')
         setTimeout(() => {
           setMessage(null)
           setClassMessage(null)
-        }, 4000);
+        }, 4000)
       }).catch(error => {
         setMessage(error.response.data.error)
         setClassMessage('error')
         setTimeout(() => {
           setMessage(null)
           setClassMessage(null)
-        }, 4000);
+        }, 4000)
       })
     }
   }
@@ -174,7 +175,10 @@ function App() {
       <Notification message={message} classNotification={classMessage} />
       {user === null ? loginComponent() : blogsComponent()}
     </div>
-  );
+  )
 }
 
-export default App;
+// set display name
+App.displayName = 'MyApp'
+
+export default App

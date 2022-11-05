@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-const FormBlog = ({ createBlog}) => {
+const FormBlog = ({ createBlog }) => {
 
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -19,17 +19,17 @@ const FormBlog = ({ createBlog}) => {
           setUrl('')
     }
     return(
-    <div>
+    <div className='formDiv'>
         <h2>Create new</h2>
         <form onSubmit={addBlog}>
             <div>
-                title:<input type="text" value={title} name="Title"  onChange={({ target }) => setTitle(target.value)} required/>
+                title:<input type="text" value={title} name="Title"  onChange={({ target }) => setTitle(target.value)} placeholder='title' required/>
             </div>
             <div>
-                author:<input type="text" value={author} name="Author"  onChange={({ target }) => setAuthor(target.value)} required/>
+                author:<input type="text" value={author} name="Author"  onChange={({ target }) => setAuthor(target.value)} placeholder='author' required/>
             </div>
             <div>
-                url:<input type="text" value={url} name="Url"  onChange={({ target }) => setUrl(target.value)} required/>
+                url:<input type="text" value={url} name="Url"  onChange={({ target }) => setUrl(target.value)} placeholder='url' required/>
             </div>
             <button type="submit">create</button>
         </form>

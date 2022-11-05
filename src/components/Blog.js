@@ -1,10 +1,7 @@
-import React from "react";
-import blogs from "../services/blogs";
-import ToggleableBlog from "./ToggleableBlog";
+import React from 'react'
+import ToggleableBlog from './ToggleableBlog'
 
-const Blog = ({blogs, updatedBlog, handleDelete}) =>{ 
-
-    
+const Blog = ({ blogs, updatedBlog, handleDelete }) => {
     return(
     <div>
         {blogs.sort((a,b) => b.likes - a.likes).map(blog => 
@@ -21,5 +18,6 @@ const Blog = ({blogs, updatedBlog, handleDelete}) =>{
         </ToggleableBlog>)}
     </div>
 )}
+
 
 export default Blog
