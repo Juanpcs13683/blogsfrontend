@@ -109,7 +109,7 @@ function App() {
   const updateBlog = (blogObject, idBlog) => {
     blogService.update(blogObject, idBlog).then(response => {
       setBlogs(blogs.map(blog => blog.id !== idBlog ? blog : response))
-      setMessage('User updated')
+      setMessage('Blog updated')
       setClassMessage('success')
       setTimeout(() => {
         setMessage(null)

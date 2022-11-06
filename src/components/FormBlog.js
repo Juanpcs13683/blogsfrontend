@@ -23,15 +23,15 @@ const FormBlog = ({ createBlog }) => {
         <h2>Create new</h2>
         <form onSubmit={addBlog}>
             <div>
-                title:<input type="text" value={title} name="Title"  onChange={({ target }) => setTitle(target.value)} placeholder='title' required/>
+                title:<input id='title' type="text" value={title} name="Title"  onChange={({ target }) => setTitle(target.value)} placeholder='title' required/>
             </div>
             <div>
-                author:<input type="text" value={author} name="Author"  onChange={({ target }) => setAuthor(target.value)} placeholder='author' required/>
+                author:<input id='author' type="text" value={author} name="Author"  onChange={({ target }) => setAuthor(target.value)} placeholder='author' required/>
             </div>
             <div>
-                url:<input type="text" value={url} name="Url"  onChange={({ target }) => setUrl(target.value)} placeholder='url' required/>
+                url:<input id='url' type="text" value={url} name="Url"  onChange={({ target }) => setUrl(target.value)} placeholder='url' required/>
             </div>
-            <button type="submit">create</button>
+            <button id='save-button' type="submit">create</button>
         </form>
     </div>
 )}
