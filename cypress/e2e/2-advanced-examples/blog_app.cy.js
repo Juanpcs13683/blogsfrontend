@@ -76,5 +76,39 @@ describe('Blog app', function() {
             cy.get('#like-button').click()
             cy.get('.success').should('contain', 'Blog updated')
         })
+
+        //Exercise 5.21 user can delete
+        it('the user can delete a blog', function () {
+            cy.contains('view').click()
+            cy.get('#delete-button').click()
+            cy.get('.success').should('contain', 'Blog have been deleted')
+        })
+    })
+
+    describe('blogs are ordered by likes number', function() {
+        Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
+            cy.request({
+                url: 'http://localhost:3003/api/blogs',
+                method: 'POST',
+                body: { title, author, url, likes },
+                headers: {
+                    'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+                }
+                })
+                cy.visit('http://localhost:3000')
+        })
+
+        beforeEach(function () {
+            cy.login({ username: 'admin', password: 'admin' })
+            cy.createBlog({title: 'first Blog', author: 'Juanpcs', url: 'www.something.com', likes: 4})
+            cy.createBlog({title: 'second Blog', author: 'Juanpcs', url: 'www.something.com', likes: 9})
+            cy.createBlog({title: 'third Blog', author: 'Juanpcs', url: 'www.something.com', likes: 2})
+        })
+
+        it('blogs are ordered by likes number', function () {
+            cy.get('.blog').eq(0).should('contain', 'second Blog')
+            cy.get('.blog').eq(1).should('contain', 'first Blog')
+            cy.get('.blog').eq(2).should('contain', 'third Blog')
+        })
     })
   })

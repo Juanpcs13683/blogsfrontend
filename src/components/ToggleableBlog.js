@@ -33,8 +33,8 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, 
       }
 
     return(
-        <div style={blogStyle}>
-            <div style={hidenWhenVisible}>
+        <div style={blogStyle} >
+            <div style={hidenWhenVisible}  className='blog'>
                 {title} <b>{author}</b> <button onClick={toggleVisibility}>view</button>
             </div>
             <div style={showWhenVisible} className='toggleableContent'>
@@ -42,7 +42,7 @@ const ToggleableBlog = ({ title, author, url, likes, user, idBlog, updatedBlog, 
                 <p>{url}</p>
                 <p>likes: {likes} <button id='like-button' onClick={handleUpdate}>like</button></p>
                 <p>{user.name}</p>
-                <button onClick={deleteBlog}>remove</button>
+                <button id='delete-button' onClick={deleteBlog}>remove</button>
             </div>
         </div>
     )
